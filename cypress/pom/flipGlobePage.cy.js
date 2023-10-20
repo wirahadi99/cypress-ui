@@ -25,7 +25,7 @@ export default class flipGlobePage {
         return cy.get('.css-mqm6w4 > .css-70qvj9 > .chakra-text');
      }
      static getTransferFee() {
-        return cy.get('.css-1kggdj1 > .css-1int6b');
+        return cy.get('.css-1kggdj1 > .css-1int6b7');
      }
      static getTotalPay() {
         return cy.get('.css-1151a72');
@@ -45,12 +45,17 @@ export default class flipGlobePage {
         GeneralFlow.exchangerates()
         .then((result) => {
           let transferFee = result.transferFee;
-          let excangeRate = result.excangeRate;
-          let currencyCode = result.currencyCode;
-          let textString = `1 ${currencyCode} = ${excangeRate} IDR`
-          this.getCurrentRate().should('have.text',textString);
-          this.getTransferFee().should('have.text',transferFee);
-          this.getTotalPay().should('have.text',idrAmount+transferFee);
+          let exchangeRate = result.exchangeRate;
+          const total = idrAmount + parseInt(transferFee);
+          
+          const formattedTransferFee = GeneralFlow.formatCurrency(transferFee);
+          const formattedExchangeRated = GeneralFlow.formatCurrency(exchangeRate);
+          const formattedTotal = GeneralFlow.formatCurrency(total);
+          
+
+          this.getCurrentRate().should('have.text',`1 GBP = ${formattedExchangeRated} IDR`);
+          this.getTransferFee().should('have.text',formattedTransferFee + ' IDR');
+          this.getTotalPay().should('have.text',formattedTotal + ' IDR');
         });
       }
 }

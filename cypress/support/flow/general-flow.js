@@ -12,7 +12,7 @@ export default class GeneralFlow {
       .then((response) => {
         return {
           transferFee: response.body[56].flip_transfer_fee,
-          excangeRate: response.body[56].flip_exchange_rate,
+          exchangeRate: response.body[56].flip_exchange_rate,
           currencyCode: response.body[56].currency_code
         };
     });
@@ -38,5 +38,15 @@ export default class GeneralFlow {
           result: response.body.exchange_amount
         };
     });
+  }
+
+  static formatCurrency(value) {
+    // Format the number as currency (USD in this example, replace with your currency)
+    const formattedCurrency = new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD'
+    }).format(value);
+  
+    return formattedCurrency.replace(/(\$|\.00$)/g, '');
   }
 }

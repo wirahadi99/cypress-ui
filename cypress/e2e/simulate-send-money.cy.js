@@ -21,6 +21,7 @@ describe('Simulate send money', function () {
       navbar.getChangeLanguageButton().click();
       cy.url().should('contain', 'en');
       cy.wait('@landing.json');
+      landingPage.assertSupportEwallet();
       landingPage.getButtonLearnMoreSendMoney().click();
       cy.url().should('contain',flipGlobePageUrl);
       cy.wait('@flip-globe.json');
@@ -28,3 +29,5 @@ describe('Simulate send money', function () {
     }
   );
 });
+
+// because I couldn't find a mobile provider supported by Flip. so I made an assertion to support ewallet
